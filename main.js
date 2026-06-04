@@ -144,11 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let bgMusicVolumeRatio = 1.0;
     
-    // Typewriter sound setup (supports assets/type_sound.mp4 and assets/type_dot_type_sound.mp4)
-    const typeSound = new Audio("assets/type_sound.mp4");
+    // Typewriter sound setup (supports type_sound.mp4 and type_dot_type_sound.mp4)
+    const typeSound = new Audio("type_sound.mp4");
     typeSound.addEventListener('error', () => {
         if (typeSound.src.indexOf("type_dot_type_sound.mp4") === -1) {
-            typeSound.src = "assets/type_dot_type_sound.mp4";
+            typeSound.src = "type_dot_type_sound.mp4";
         }
     });
 
