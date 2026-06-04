@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Shuffle and randomize Section 3 party slideshow images (using img1.png to img6.png)
     const slideImages = [
-        "assets/img1.png",
-        "assets/img2.png",
-        "assets/img3.png",
-        "assets/img4.png",
-        "assets/img5.png",
-        "assets/img6.png"
+        "img1.png",
+        "img2.png",
+        "img3.png",
+        "img4.png",
+        "img5.png",
+        "img6.png"
     ];
     // Fisher-Yates Shuffle
     for (let i = slideImages.length - 1; i > 0; i--) {
