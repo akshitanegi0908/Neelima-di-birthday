@@ -1,0 +1,2373 @@
+/* ==========================================================================
+   NEELIMA DI'S TEDDY WORLD - PREMIUM STYLE SHEET
+   COZY PLUSHIE WONDERLAND & STORYBOOK
+   ========================================================================== */
+
+/* --- ROOT VARIABLES (COZY PASTEL SYSTEM) --- */
+:root {
+    --bg-cream: #FAF8F0;
+    --pastel-pink: #FFD5E5;
+    --pastel-pink-soft: #FFEAF2;
+    --pastel-lavender: #E8D7FF;
+    --pastel-lavender-soft: #F6EFFF;
+    --pastel-blue: #BFF0FF;
+    --pastel-blue-soft: #E8F9FF;
+    --pastel-peach: #FFDAC1;
+    --pastel-peach-soft: #FFF2EA;
+    --pastel-yellow: #FFF5C3;
+    --pastel-yellow-soft: #FFFDF0;
+    
+    --text-dark: #564030;
+    --text-medium: #8C7260;
+    --text-light: #BCAAA4;
+    
+    --border-plush: #E6D2C3;
+    --shadow-soft: 0 10px 30px rgba(86, 64, 48, 0.08);
+    --shadow-plush: inset 0 -6px 0 rgba(0, 0, 0, 0.1), 0 8px 16px rgba(86, 64, 48, 0.06);
+    --shadow-plush-hover: inset 0 -3px 0 rgba(0, 0, 0, 0.1), 0 4px 8px rgba(86, 64, 48, 0.08);
+    
+    --font-rounded: 'Fredoka', 'Comfortaa', system-ui, -apple-system, sans-serif;
+}
+
+/* --- GENERAL RESET & BASE --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-dark);
+    font-family: var(--font-rounded);
+    overflow-x: hidden;
+    cursor: none; /* Custom cute cursor */
+    min-height: 100vh;
+}
+
+/* --- CUSTOM CURSOR --- */
+.custom-cursor {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--text-medium);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10000;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    background-color: rgba(255, 213, 229, 0.4);
+}
+
+.custom-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-dark);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10001;
+}
+
+.cursor-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Interactive elements hover scale for cursor */
+body.hovering-interactive .custom-cursor {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 218, 193, 0.6);
+    border-color: var(--text-dark);
+}
+
+/* Hide custom cursor on mobile touch devices */
+@media (hover: none) {
+    .custom-cursor, .custom-cursor-dot, .cursor-canvas {
+        display: none !important;
+    }
+    body {
+        cursor: auto !important;
+    }
+}
+
+/* --- BACKGROUND DECORATIVE PARTICLES CANVAS --- */
+.particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- BACKGROUND VIDEO FOR THE FULL EXPERIENCE --- */
+.video-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+}
+
+.video-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-cream);
+    opacity: 0.75;
+}
+
+/* --- MUSIC PLAYER --- */
+.music-player-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    background: #FFF;
+    border: 3px solid var(--pastel-pink);
+    border-radius: 30px;
+    padding: 8px 16px;
+    box-shadow: var(--shadow-plush);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.music-player-container:hover {
+    transform: scale(1.05);
+}
+
+.music-player-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.music-teddy-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: floating-slight 2.5s ease-in-out infinite alternate;
+}
+
+.music-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.music-control-btn {
+    background: var(--pastel-pink);
+    border: none;
+    color: var(--text-dark);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-plush);
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.music-control-btn:active {
+    transform: scale(0.9);
+}
+
+.volume-slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.volume-slider-wrapper input[type="range"] {
+    width: 60px;
+    height: 6px;
+    background: var(--pastel-pink-soft);
+    border-radius: 3px;
+    appearance: none;
+    outline: none;
+}
+
+.volume-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-medium);
+    cursor: pointer;
+}
+
+/* --- AUDIO PROMPT MODAL --- */
+.audio-prompt-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background-color: rgba(250, 248, 240, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.audio-prompt-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.audio-prompt-content {
+    background: white;
+    border: 6px solid var(--pastel-pink);
+    border-radius: 40px;
+    padding: 30px;
+    width: 90%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transform: translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.audio-prompt-modal.active .audio-prompt-content {
+    transform: translateY(0);
+}
+
+.welcome-teddy {
+    margin-bottom: 15px;
+    animation: teddy-bounce 1.8s infinite alternate ease-in-out;
+}
+
+.audio-prompt-content h2 {
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.audio-prompt-content p {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.prompt-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+/* --- PLUSH SQUISHY BUTTONS --- */
+.plush-btn {
+    font-family: var(--font-rounded);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: 35px;
+    border: 3px solid var(--text-dark);
+    cursor: pointer;
+    box-shadow: var(--shadow-plush);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.plush-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.plush-btn:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow: var(--shadow-plush-hover);
+}
+
+.primary-plush {
+    background-color: var(--pastel-pink);
+    color: var(--text-dark);
+}
+
+.secondary-plush {
+    background-color: var(--pastel-blue);
+    color: var(--text-dark);
+}
+
+.min-width-btn {
+    min-width: 160px;
+}
+
+.scale-sml-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+.round-nav {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.bounce-btn {
+    animation: float-btn 2s infinite ease-in-out alternate;
+}
+
+/* --- LOADING SCREEN --- */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-cream);
+    z-index: 10005;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s;
+}
+
+.loader-content {
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+.bouncing-teddy-wrapper {
+    margin-bottom: 20px;
+}
+
+.bouncing-teddy {
+    animation: teddy-bounce-load 1.4s infinite ease-in-out alternate;
+    transform-origin: bottom center;
+}
+
+.loading-title {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.heart-progress-container {
+    width: 100%;
+    height: 18px;
+    background: #FFF;
+    border: 3px solid var(--pastel-pink);
+    border-radius: 20px;
+    position: relative;
+    overflow: visible;
+}
+
+.heart-progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--pastel-pink);
+    border-radius: 15px;
+    transition: width 0.1s linear;
+}
+
+.heart-indicator {
+    position: absolute;
+    top: -8px;
+    left: 0%;
+    color: #FF6B8B;
+    font-size: 1.4rem;
+    transform: translateX(-50%);
+    animation: heart-pulse 0.8s infinite alternate ease-in-out;
+    pointer-events: none;
+    transition: left 0.1s linear;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+    padding: 40px 20px;
+}
+
+.clouds-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.02);
+}
+
+.cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    width: 120px;
+    height: 40px;
+    top: 15%;
+    left: 10%;
+    animation: cloud-drift-1 30s infinite linear;
+}
+.cloud-1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+.cloud-1::after { width: 70px; height: 70px; top: -35px; right: 15px; }
+
+.cloud-2 {
+    width: 150px;
+    height: 50px;
+    top: 40%;
+    right: 10%;
+    animation: cloud-drift-2 40s infinite linear;
+}
+.cloud-2::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+.cloud-2::after { width: 80px; height: 80px; top: -40px; right: 20px; }
+
+.cloud-3 {
+    width: 100px;
+    height: 35px;
+    bottom: 20%;
+    left: 25%;
+    animation: cloud-drift-1 35s infinite linear;
+}
+.cloud-3::before { width: 40px; height: 40px; top: -20px; left: 12px; }
+.cloud-3::after { width: 55px; height: 55px; top: -28px; right: 12px; }
+
+.hero-container {
+    z-index: 10;
+    max-width: 650px;
+}
+
+.waving-teddy-wrapper {
+    margin-bottom: 25px;
+}
+
+.waving-teddy {
+    animation: floating-slight 3s infinite ease-in-out alternate;
+}
+
+.teddy-right-arm-waving {
+    transform-origin: 72px 48px;
+    animation: wave-arm 1.2s infinite ease-in-out alternate;
+}
+
+.hero-title {
+    font-size: 2.4rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    text-shadow: 2px 2px 0px #FFF, 4px 4px 10px rgba(86, 64, 48, 0.1);
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-medium);
+    margin-bottom: 35px;
+    line-height: 1.5;
+}
+
+/* --- NAVIGATION PLUSH BUTTONS --- */
+.navigation-section {
+    padding: 20px 20px 60px;
+    z-index: 10;
+    position: relative;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.plush-nav-btn {
+    font-family: var(--font-rounded);
+    border: 4px solid var(--text-dark);
+    border-radius: 40px;
+    padding: 25px 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-plush);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.plush-nav-btn:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.plush-nav-btn:active {
+    transform: scale(0.95) translateY(2px);
+    box-shadow: var(--shadow-plush-hover);
+}
+
+.memory-btn { background-color: var(--pastel-pink); }
+.mail-btn { background-color: var(--pastel-peach); }
+.party-btn { background-color: var(--pastel-blue); }
+
+.plush-nav-btn.selected-card {
+    border: 5px solid #000000 !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+    transform: scale(1.02);
+}
+
+.plush-nav-btn .btn-icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(2px 2px 0px #FFF);
+}
+
+.plush-nav-btn .btn-text {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* --- SECTIONS COMMON STYLING --- */
+.experience-section {
+    display: none; /* Injected by JS section swapping */
+    position: relative;
+    padding: 80px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.section-header {
+    margin-bottom: 45px;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.storybook-intro {
+    font-size: 1.1rem;
+    color: var(--text-medium);
+    font-style: italic;
+}
+
+.section-decorations {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.decor {
+    position: absolute;
+    font-size: 1.6rem;
+    animation: floating-slight 4s infinite alternate ease-in-out;
+    opacity: 0.6;
+}
+
+.decor-1 { top: 5%; left: 5%; animation-delay: 0.2s; }
+.decor-2 { top: 15%; right: 5%; animation-delay: 0.8s; }
+.decor-3 { bottom: 8%; left: 8%; animation-delay: 1.2s; }
+.decor-4 { bottom: 15%; right: 12%; animation-delay: 0.4s; }
+.decor-5 { top: 50%; left: 2%; animation-delay: 1.6s; }
+
+/* --- SECTION 1: MEMORY LAND (STORYBOOK) --- */
+.storybook-container {
+    width: 100%;
+    max-width: 900px;
+    background: #FFF;
+    border: 8px solid var(--pastel-pink);
+    border-radius: 40px;
+    padding: 30px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    min-height: 480px;
+}
+
+/* Washi tape style rings/decals */
+.storybook-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 100%;
+    border-left: 2px dashed rgba(86,64,48,0.15);
+    pointer-events: none;
+    z-index: 100;
+}
+
+.storybook-page {
+    width: 100%;
+    transition: opacity 0.4s ease;
+}
+
+.page-hidden {
+    display: none;
+}
+
+.page-active {
+    display: block;
+    animation: page-fade-in 0.5s ease-out;
+}
+
+.center-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 10px;
+}
+
+.welcome-cover .giant-emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 15px;
+    animation: floating-slight 3s infinite ease-in-out alternate;
+}
+
+.book-icon-interactive {
+    font-size: 5.5rem !important;
+    display: inline-block;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    perspective: 800px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.book-icon-interactive:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.welcome-cover h3 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+}
+
+.welcome-cover p {
+    color: var(--text-medium);
+    margin-bottom: 25px;
+    max-width: 420px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.grid-split {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 30px;
+    align-items: center;
+}
+
+/* Polaroid framing */
+.polaroid-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.polaroid-card {
+    background: #FFF;
+    padding: 16px 16px 28px 16px;
+    box-shadow: 0 10px 25px rgba(86, 64, 48, 0.1);
+    border: 1px solid rgba(86, 64, 48, 0.05);
+    width: 100%;
+    max-width: 320px;
+    position: relative;
+}
+
+/* Page rotation variations */
+.rotate-left { transform: rotate(-3deg); }
+.rotate-right { transform: rotate(3deg); }
+
+.polaroid-img-box {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--pastel-pink-soft);
+    border-radius: 4px;
+}
+
+.polaroid-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.polaroid-card:hover img {
+    transform: scale(1.04);
+}
+
+.polaroid-caption {
+    font-family: var(--font-rounded);
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+/* sticker border additions */
+.sticker-frame::before {
+    content: '🍓';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    font-size: 1.8rem;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.05));
+    z-index: 10;
+}
+
+.teddy-frame::before {
+    content: '🧸';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    font-size: 1.8rem;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.05));
+    z-index: 10;
+}
+
+/* Hidden Teddy Clickers */
+.hidden-teddy {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    bottom: 8px;
+    right: 8px;
+    background: var(--pastel-yellow);
+    border: 2px solid var(--text-dark);
+    border-radius: 50%;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 20;
+    transition: transform 0.2s, background-color 0.2s;
+    outline: none;
+}
+
+.hidden-teddy:hover {
+    transform: scale(1.2);
+    background-color: var(--pastel-pink);
+}
+
+.hidden-teddy.found {
+    background-color: var(--pastel-peach);
+    color: white;
+    animation: pop-found 0.5s forwards;
+}
+
+.page-text-desc h3 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+}
+
+.page-text-desc p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-medium);
+    margin-bottom: 25px;
+}
+
+.book-nav-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Secret teddy popup */
+.teddy-secret-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 248, 240, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.teddy-secret-modal.active {
+    display: flex;
+}
+
+.teddy-secret-box {
+    background: white;
+    border: 5px solid var(--pastel-peach);
+    border-radius: 35px;
+    padding: 30px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    animation: scale-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.close-secret-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.secret-teddy-art {
+    margin-bottom: 15px;
+    animation: floating-slight 2.5s infinite alternate ease-in-out;
+}
+
+.teddy-secret-box p {
+    font-size: 1rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* --- SECTION 2: TEDDY MAIL (ENVELOPE & NOTEBOOK) --- */
+.envelope-area {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    perspective: 1200px;
+    position: relative;
+}
+
+.envelope-outer {
+    width: 100%;
+    aspect-ratio: 1.4;
+    background: var(--pastel-pink);
+    border: 4px solid var(--text-dark);
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: var(--pastel-pink);
+    border: 4px solid var(--text-dark);
+    border-top: none;
+    border-radius: 0 0 100px 100px;
+    transform-origin: top center;
+    z-index: 30;
+    transition: transform 0.6s ease;
+}
+
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFDDE9;
+    border-radius: 20px;
+    border-top: 4px solid var(--text-dark);
+    z-index: 10;
+}
+
+/* gold printed seal in the middle of flap opening */
+.gold-envelope-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 96px;
+    height: 96px;
+    background: radial-gradient(circle, #FFF8D4 0%, #F5CE56 45%, #D4A325 80%, #A37710 100%);
+    border: 4px solid var(--text-dark);
+    border-radius: 50%;
+    box-shadow: 
+        0 6px 12px rgba(86, 64, 48, 0.25),
+        inset 0 3px 6px rgba(255, 255, 255, 0.7),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.25);
+    z-index: 35;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.envelope-outer:not(.open):hover {
+    transform: scale(1.02);
+}
+
+.envelope-outer:not(.open):hover .gold-envelope-seal {
+    transform: translate(-50%, -50%) rotate(5deg) scale(1.08);
+}
+
+/* Letter sheet inside envelope */
+.envelope-letter {
+    position: absolute;
+    top: 10px;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    background: #FFF;
+    border: 3px solid var(--text-dark);
+    border-radius: 12px;
+    z-index: 5;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.2), z-index 0.8s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Open reading styles */
+.envelope-outer.open .envelope-flap {
+    transform: rotateX(180deg) translateY(-2px);
+    z-index: 2;
+}
+
+.envelope-outer.open .gold-envelope-seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+}
+
+.envelope-outer.reading {
+    transform: rotateY(0deg) scale(1.05);
+    cursor: default;
+}
+
+.envelope-outer.reading .envelope-letter {
+    transform: translateY(-90%) scale(1.05);
+    z-index: 50;
+    opacity: 1;
+    pointer-events: all;
+    box-shadow: 0 15px 35px rgba(86,64,48,0.15);
+    height: 160%;
+}
+
+.diary-notebook {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border-radius: 10px;
+    background: var(--pastel-yellow-soft);
+    position: relative;
+    padding: 15px;
+}
+
+.notebook-spine {
+    width: 15px;
+    background: repeating-linear-gradient(
+        0deg,
+        var(--text-medium) 0px,
+        var(--text-medium) 4px,
+        transparent 4px,
+        transparent 15px
+    );
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-right: 2px solid rgba(86,64,48,0.1);
+}
+
+.notebook-page-view {
+    margin-left: 15px;
+    width: calc(100% - 15px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.diary-pages-container {
+    height: 80%;
+    position: relative;
+    padding: 5px;
+}
+
+.diary-page-content {
+    background: repeating-linear-gradient(
+        transparent,
+        transparent 27px,
+        #EAE1C8 27px,
+        #EAE1C8 28px
+    );
+    height: 100%;
+    padding: 10px 5px;
+}
+
+.diary-teddy-icon {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+}
+
+.diary-text-area {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 28px; /* Alignment with paper lines */
+    color: #4A3B32;
+    font-family: var(--font-rounded);
+    min-height: 140px;
+    white-space: pre-wrap;
+}
+
+.diary-navigation {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 2px dashed rgba(86,64,48,0.1);
+}
+
+.diary-nav-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-rounded);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    outline: none;
+}
+
+.diary-nav-btn:hover {
+    color: var(--text-dark);
+}
+
+.envelope-hint {
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 500;
+    color: var(--text-medium);
+}
+
+/* --- SECTION 3: BIRTHDAY PARTY (WONDERLAND) --- */
+/* Countdown screen in soft pastel cream-yellow overlay */
+.party-countdown-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--pastel-yellow-soft);
+    z-index: 10006;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-card {
+    text-align: center;
+    transform: scale(0.9);
+}
+
+.countdown-teddy {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 15px;
+    animation: teddy-bounce 1.5s infinite alternate ease-in-out;
+}
+
+.countdown-num {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #FFF;
+}
+
+.countdown-card p {
+    font-size: 1.1rem;
+    color: var(--text-medium);
+}
+
+/* CINEMATIC SLIDESHOW IN CUTE TEDDY FRAME */
+.party-slideshow-wrapper {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+.teddy-ears-frame {
+    position: relative;
+    background: white;
+    border: 8px solid var(--pastel-blue);
+    border-radius: 40px;
+    padding: 15px;
+    box-shadow: var(--shadow-soft);
+}
+
+.teddy-ears-frame .ear-left, .teddy-ears-frame .ear-right {
+    position: absolute;
+    top: -30px;
+    width: 75px;
+    height: 75px;
+    background: white;
+    border: 8px solid var(--pastel-blue);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.teddy-ears-frame .ear-left { left: 30px; }
+.teddy-ears-frame .ear-right { right: 30px; }
+
+/* Inner ears coloring */
+.teddy-ears-frame .ear-left::before, .teddy-ears-frame .ear-right::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: var(--pastel-pink);
+    border-radius: 50%;
+}
+
+.slideshow-frame-inner {
+    width: 100%;
+    aspect-ratio: 1.4;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+}
+
+.party-slides {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.party-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 6s ease;
+    transform: scale(1.0);
+    background: var(--bg-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.party-slide.slide-active {
+    opacity: 1;
+    z-index: 10;
+    transform: scale(1.03); /* Soft Ken Burns floating scale effect */
+}
+
+.party-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border-radius: 15px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-align: center;
+    border: 2px solid var(--pastel-blue);
+}
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--pastel-blue);
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 20;
+    outline: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.slide-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    background-color: var(--pastel-blue-soft);
+}
+
+.left-btn { left: 15px; }
+.right-btn { right: 15px; }
+
+/* --- TEDDY CINEMA MEMORY FILM SHOW REMOVED --- */
+/* --- NEW FEATURE: INTERACTIVE TEDDY GUIDE & STAR HUNT SYSTEM --- */
+
+.star-counter-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: #FFF;
+    border: 3.5px solid var(--text-dark);
+    border-radius: 25px;
+    padding: 8px 18px;
+    box-shadow: var(--shadow-plush);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 1rem;
+    animation: floating-slight 2.5s ease-in-out infinite alternate;
+}
+
+.star-icon-anim {
+    font-size: 1.3rem;
+    display: inline-block;
+    animation: spin-pulse 3s infinite linear;
+}
+
+@keyframes spin-pulse {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+
+/* Hidden Birthday Stars scattered on elements */
+.birthday-star {
+    position: absolute;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 2000; /* raise above game canvas */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    animation: star-sparkle 1.8s infinite ease-in-out alternate;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+    user-select: none;
+}
+
+.birthday-star:hover {
+    transform: scale(1.4) rotate(20deg);
+}
+
+.birthday-star.collected {
+    pointer-events: none;
+    animation: star-fly-away 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes star-sparkle {
+    0% { transform: scale(0.9) rotate(0deg); opacity: 0.8; filter: drop-shadow(0 1px 2px rgba(255,215,0,0.4)); }
+    100% { transform: scale(1.15) rotate(15deg); opacity: 1; filter: drop-shadow(0 4px 8px rgba(255,215,0,0.8)); }
+}
+
+/* Specific star placements matching their IDs */
+#star-1 { top: 10px; right: 10px; }
+#star-2 { bottom: 15px; left: 15px; }
+#star-3 { top: 15px; left: 15px; }
+#star-4 { top: -20px; right: 20px; }
+#star-5 { top: 10px; right: 80px; }
+#star-6 { bottom: -25px; left: 30px; }
+#star-7 { top: 10px; right: 10px; }
+#star-8 { top: 5px; right: 5px; }
+#star-9 { top: 8px; right: 110px; }
+    #star-10 { top: 30px; left: 30px; }
+
+/* Teddy Guide Overlay Container */
+.teddy-guide-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    pointer-events: none; /* Let clicks pass unless hovering interactive buttons */
+}
+
+.teddy-guide-character {
+    width: 120px;
+    height: 120px;
+    pointer-events: auto;
+    filter: drop-shadow(0 8px 16px rgba(86,64,48,0.12));
+    animation: teddy-idle 2.5s infinite alternate ease-in-out;
+    transform-origin: bottom center;
+}
+
+/* Speech Bubble styling */
+.teddy-speech-bubble {
+    background: #FFFDF0;
+    border: 3.5px solid var(--text-dark);
+    border-radius: 25px;
+    padding: 14px 20px;
+    max-width: 250px;
+    position: relative;
+    pointer-events: auto;
+    box-shadow: var(--shadow-plush);
+    animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.teddy-speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: -12px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 12px solid var(--text-dark);
+}
+
+.teddy-speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: 22px;
+    right: -7px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid #FFFDF0;
+    z-index: 1;
+}
+
+.teddy-speech-bubble p {
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-dark);
+}
+
+/* Dialog choices buttons */
+.teddy-choices {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.teddy-choices button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-width: unset;
+}
+
+/* Animations for Teddy */
+@keyframes teddy-idle {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-4px) rotate(2deg); }
+}
+
+.teddy-guide-character.walking {
+    animation: teddy-walk-bounce 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes teddy-walk-bounce {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.teddy-guide-character.waving .teddy-arm-left {
+    animation: wave-arm 0.6s infinite alternate ease-in-out;
+    transform-origin: 24px 65px;
+}
+
+@keyframes wave-arm {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-50deg); }
+}
+
+.teddy-guide-character.sad {
+    animation: teddy-sad-slouch 3s infinite alternate ease-in-out;
+}
+
+@keyframes teddy-sad-slouch {
+    0% { transform: scaleY(0.9) translateY(4px); }
+    100% { transform: scaleY(0.85) translateY(6px); }
+}
+
+/* Sad state modifications */
+.teddy-guide-character.sad .teddy-ear.left-ear {
+    transform: rotate(-15deg);
+    transform-origin: 28px 32px;
+}
+
+.teddy-guide-character.sad .teddy-ear.right-ear {
+    transform: rotate(15deg);
+    transform-origin: 72px 32px;
+}
+
+.teddy-guide-character.sad .teddy-eye-pupil {
+    fill: #5c6b73;
+}
+
+/* Happy dancing teddy bear */
+.teddy-guide-character.happy-dance {
+    animation: teddy-dance-jump 0.4s infinite alternate ease-in-out;
+}
+
+@keyframes teddy-dance-jump {
+    0% { transform: translateY(0) scaleY(0.95); }
+    100% { transform: translateY(-20px) scaleY(1.05); }
+}
+
+/* Shaking anim for Maybe Later button redirect */
+.button-shake {
+    animation: shake-element 0.5s ease-in-out infinite;
+}
+
+@keyframes shake-element {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
+/* Wish moment lock state overlay style */
+.grand-finale-wrapper.locked-section {
+    position: relative;
+    border: 4px dashed var(--text-light);
+    background: rgba(255, 255, 255, 0.4);
+    opacity: 0.7;
+    filter: blur(0.5px);
+}
+
+/* --- TEDDY CAFE --- */
+.cafe-section-wrapper {
+    margin-bottom: 70px;
+}
+
+.cafe-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.cafe-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.cafe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cafe-card {
+    background: #FFF;
+    border: 4px solid var(--text-dark);
+    border-radius: 30px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-plush);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.cafe-card:hover {
+    transform: scale(1.03) translateY(-4px);
+}
+
+.cafe-item-img {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    animation: floating-slight 2s infinite alternate ease-in-out;
+}
+
+.cafe-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+}
+
+.cafe-item-desc {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    line-height: 1.4;
+}
+
+/* Cafe clicked pop bubble */
+.cafe-bubble {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: var(--pastel-yellow-soft);
+    border: 3px solid var(--text-dark);
+    border-radius: 15px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    pointer-events: none;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+
+.cafe-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--text-dark);
+}
+
+.cafe-card.popped .cafe-bubble {
+    transform: translateX(-50%) scale(1);
+}
+
+/* --- MINI GAME: CATCH THE TEDDY --- */
+.game-section-wrapper {
+    margin-bottom: 70px;
+}
+
+.game-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.game-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border: 5px solid var(--pastel-peach);
+    border-radius: 35px;
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.game-score-board {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed rgba(86,64,48,0.1);
+}
+
+.game-canvas-area {
+    width: 100%;
+    height: 300px;
+    background-color: var(--pastel-peach-soft);
+    border-radius: 20px;
+    border: 3px solid var(--text-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Falling bear element */
+.falling-bear {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s;
+    animation: rotate-falling 3s linear infinite;
+}
+
+.falling-bear:active {
+    transform: scale(0.8);
+}
+
+/* Game Reward modal */
+.game-reward-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 248, 240, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1001;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-reward-modal.active {
+    display: flex;
+}
+
+.game-reward-box {
+    background: white;
+    border: 5px solid var(--pastel-pink);
+    border-radius: 35px;
+    padding: 30px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    animation: scale-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.close-game-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.reward-icon {
+    font-size: 3.5rem;
+    margin-bottom: 12px;
+    animation: floating-slight 2.5s infinite alternate ease-in-out;
+}
+
+.game-reward-box h4 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.game-reward-box p {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    line-height: 1.4;
+}
+
+/* --- TEDDY WISH MACHINE (GACHA) --- */
+.gacha-section-wrapper {
+    margin-bottom: 70px;
+}
+
+.gacha-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.gacha-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.gacha-container {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.gacha-machine {
+    width: 100%;
+    background: var(--pastel-pink);
+    border: 5px solid var(--text-dark);
+    border-radius: 40px;
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.gacha-glass {
+    width: 100%;
+    height: 180px;
+    background: #FFF;
+    border: 4px solid var(--text-dark);
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.gacha-glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+}
+
+.capsules-pile {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.capsule {
+    width: 42px;
+    height: 25px;
+    border-radius: 12px;
+    border: 2px solid var(--text-dark);
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.06);
+}
+
+.cap-1 { transform: rotate(-25deg); }
+.cap-2 { transform: rotate(15deg); }
+.cap-3 { transform: rotate(-10deg); }
+.cap-4 { transform: rotate(35deg); }
+.cap-5 { transform: rotate(-45deg); }
+.cap-6 { transform: rotate(5deg); }
+.cap-7 { transform: rotate(-30deg); }
+.cap-8 { transform: rotate(20deg); }
+.cap-9 { transform: rotate(-15deg); }
+.cap-10 { transform: rotate(40deg); }
+
+.gacha-dispenser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.gacha-knob-wrapper {
+    width: 80px;
+    height: 80px;
+    background: var(--pastel-yellow);
+    border: 4px solid var(--text-dark);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    box-shadow: var(--shadow-plush);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s;
+}
+
+.gacha-knob-wrapper:active {
+    transform: scale(0.95);
+}
+
+.gacha-knob {
+    width: 40px;
+    height: 12px;
+    background: var(--text-dark);
+    border-radius: 6px;
+    position: relative;
+}
+
+.knob-handle {
+    position: absolute;
+    width: 12px;
+    height: 40px;
+    background: var(--text-dark);
+    border-radius: 6px;
+    top: -14px;
+    left: 14px;
+}
+
+.gacha-slot {
+    width: 65px;
+    height: 45px;
+    background: var(--text-dark);
+    border-radius: 15px 15px 0 0;
+    margin-top: 15px;
+    position: relative;
+    overflow: visible;
+}
+
+/* Dispensed capsule drop */
+.dispensed-capsule-element {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    width: 44px;
+    height: 26px;
+    border-radius: 12px;
+    border: 3px solid var(--text-dark);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    z-index: 10;
+    animation: capsule-dispense 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+/* Gacha Reveal Modal */
+.gacha-reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 248, 240, 0.85);
+    backdrop-filter: blur(4px);
+    z-index: 1005;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.capsule-split-container {
+    width: 320px;
+    height: 380px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.capsule-half {
+    width: 120px;
+    height: 70px;
+    border: 4px solid var(--text-dark);
+    position: absolute;
+    z-index: 5;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.cap-top {
+    background: var(--pastel-pink);
+    border-radius: 60px 60px 0 0;
+    top: 30px;
+}
+
+.cap-bottom {
+    background: var(--pastel-blue);
+    border-radius: 0 0 60px 60px;
+    bottom: 30px;
+    border-top: none;
+}
+
+/* Split open animation state */
+.gacha-reveal.open .cap-top {
+    transform: translateY(-90px) rotate(-15deg);
+}
+
+.gacha-reveal.open .cap-bottom {
+    transform: translateY(90px) rotate(15deg);
+}
+
+.wish-paper {
+    width: 90%;
+    background: var(--pastel-yellow-soft);
+    border: 3px dashed var(--text-dark);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(86,64,48,0.12);
+    z-index: 10;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.6s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2), opacity 0.5s 0.3s;
+}
+
+.gacha-reveal.open .wish-paper {
+    opacity: 1;
+    transform: scale(1.0);
+}
+
+.paper-sparkles {
+    font-size: 1.5rem;
+    display: inline-block;
+    animation: floating-slight 2s infinite alternate ease-in-out;
+}
+
+#gacha-wish-text {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin: 15px 0 20px 0;
+}
+
+/* --- GRAND FINALE --- */
+.grand-finale-wrapper {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.grand-teddy-title {
+    font-size: 1.8rem;
+    margin-bottom: 35px;
+}
+
+.giant-teddy-container {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.giant-teddy-art {
+    width: 100%;
+    max-width: 320px;
+    animation: floating-slight 3.5s infinite alternate ease-in-out;
+}
+
+.clouds-decor {
+    position: absolute;
+    width: 100%;
+    top: 25%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.c-d-1 {
+    width: 60px;
+    height: 25px;
+    left: -20px;
+    background: #FFF;
+    border-radius: 30px;
+    opacity: 0.7;
+    animation: cloud-drift-1 15s infinite alternate ease-in-out;
+}
+
+.c-d-2 {
+    width: 80px;
+    height: 30px;
+    right: -20px;
+    background: #FFF;
+    border-radius: 30px;
+    opacity: 0.7;
+    animation: cloud-drift-2 18s infinite alternate ease-in-out;
+}
+
+/* Interactive cake block */
+.finale-cake-box {
+    position: absolute;
+    bottom: -15px;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+}
+
+.finale-cake-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 6px 12px rgba(86,64,48,0.12));
+}
+
+.fallback-cake-illust {
+    width: 100%;
+}
+
+.candle-holder-overlay {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 50px;
+    pointer-events: none;
+}
+
+/* Custom Live candle flame overlaid */
+.live-candle-glow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.live-candle {
+    width: 6px;
+    height: 16px;
+    background: var(--pastel-lavender);
+    border: 1px solid var(--text-dark);
+    border-radius: 3px;
+    margin-top: 15px;
+}
+
+.live-flame {
+    width: 10px;
+    height: 16px;
+    background: radial-gradient(ellipse at bottom, #FFDD8B 0%, #FF8D9E 90%);
+    border-radius: 50% 50% 30% 30%;
+    box-shadow: 0 -2px 10px rgba(255, 141, 158, 0.8), 0 2px 4px rgba(255, 221, 139, 0.6);
+    animation: flick-flame 0.6s infinite alternate ease-in-out;
+    transform-origin: bottom center;
+}
+
+.candle-smoke {
+    width: 8px;
+    height: 25px;
+    background: rgba(220, 220, 220, 0.4);
+    border-radius: 50%;
+    animation: drift-smoke 1.8s forwards ease-out;
+    position: absolute;
+    top: 0;
+}
+
+/* Blow controls */
+.candle-controls {
+    margin-top: 40px;
+    position: relative;
+    z-index: 30;
+}
+
+.candle-alert-text {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-medium);
+    margin-bottom: 20px;
+}
+
+.mic-listening-widget {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    animation: scale-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+.pulse-mic-circles {
+    width: 70px;
+    height: 70px;
+    background: var(--pastel-pink);
+    border: 3px solid var(--text-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.mic-active-icon {
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    z-index: 10;
+    animation: heart-pulse 1s infinite alternate ease-in-out;
+}
+
+.c-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--pastel-pink);
+    border: 2px solid var(--text-dark);
+    opacity: 0.6;
+    animation: pulse-ring 2s infinite linear;
+}
+
+.p2 { animation-delay: 1s; }
+
+.listening-subtext {
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    max-width: 320px;
+    line-height: 1.4;
+}
+
+.fallback-blow-btn {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-family: var(--font-rounded);
+    font-size: 0.85rem;
+    color: var(--text-light);
+    cursor: pointer;
+    outline: none;
+}
+
+.fallback-blow-btn:hover {
+    color: var(--text-medium);
+}
+
+/* --- FINAL MESSAGE CONTAINER --- */
+.final-message-container {
+    width: 100%;
+    max-width: 550px;
+    margin: 50px auto 0;
+    animation: slide-up-reveal 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+.final-paper-card {
+    background: #FFF;
+    border: 6px solid var(--pastel-peach);
+    border-radius: 40px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+}
+
+.envelope-heart-seal {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.2rem;
+    background: white;
+    padding: 0 10px;
+    animation: heart-pulse 1.2s infinite alternate ease-in-out;
+}
+
+.final-paper-card h3 {
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.final-text-paragraph {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--text-medium);
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+.final-emojis {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    letter-spacing: 5px;
+    animation: floating-slight 3s infinite alternate ease-in-out;
+}
+
+.replay-btn {
+    min-width: 180px;
+}
+
+/* --- ANIMATIONS KEYFRAMES --- */
+@keyframes teddy-bounce {
+    0% { transform: translateY(0) rotate(-2deg); }
+    100% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes teddy-bounce-load {
+    0% { transform: translateY(0) scaleY(1.0); }
+    40% { transform: translateY(-12px) scaleY(1.02); }
+    80% { transform: translateY(0) scaleY(0.96); }
+    100% { transform: translateY(0) scaleY(1.0); }
+}
+
+@keyframes wave-arm {
+    0% { transform: rotate(20deg); }
+    100% { transform: rotate(70deg); }
+}
+
+@keyframes float-btn {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
+}
+
+@keyframes floating-slight {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
+}
+
+@keyframes cloud-drift-1 {
+    0% { transform: translateX(-20px); }
+    100% { transform: translateX(20px); }
+}
+
+@keyframes cloud-drift-2 {
+    0% { transform: translateX(20px); }
+    100% { transform: translateX(-20px); }
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes page-fade-in {
+    0% { opacity: 0; transform: translateX(20px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-up {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1.0); opacity: 1; }
+}
+
+@keyframes pop-found {
+    0% { transform: scale(1.0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1.0); }
+}
+
+@keyframes rotate-falling {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes flick-flame {
+    0% { transform: scaleX(0.9) rotate(-2deg); }
+    100% { transform: scaleX(1.1) rotate(2deg); }
+}
+
+@keyframes drift-smoke {
+    0% { transform: translateY(0) scale(0.8); opacity: 0.8; }
+    100% { transform: translateY(-30px) scale(1.4); opacity: 0; }
+}
+
+@keyframes capsule-dispense {
+    0% { transform: translateY(-100px) rotate(-180deg); opacity: 0; }
+    50% { transform: translateY(0) rotate(15deg); opacity: 1; }
+    70% { transform: translateY(-8px) rotate(-10deg); }
+    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes slide-up-reveal {
+    0% { transform: translateY(30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes heart-pulse {
+    0% { transform: scale(1.0); }
+    100% { transform: scale(1.2); }
+}
+
+/* --- MOBILE RESPONSIVE SCALING --- */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .nav-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .plush-nav-btn {
+        padding: 18px 12px;
+    }
+    
+    .grid-split {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .storybook-container {
+        padding: 15px;
+        min-height: 520px;
+    }
+    
+    .storybook-container::before {
+        display: none; /* Hide spine fold on mobile */
+    }
+    
+    .envelope-outer.reading .envelope-letter {
+        height: 190%;
+        top: 2px;
+    }
+    
+    .cafe-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

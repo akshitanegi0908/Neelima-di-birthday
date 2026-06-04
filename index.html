@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Neelima Di! 🧸🎂✨</title>
+    <!-- Google Fonts: Super Adorable Rounded Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for cute icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style sheet -->
+    <link rel="stylesheet" href="index.css?v=1.7">
+</head>
+<body>
+
+    <!-- CUSTOM CURSOR (Cute pink paw/circle with sparkles) -->
+    <div id="custom-cursor" class="custom-cursor"></div>
+    <div id="custom-cursor-dot" class="custom-cursor-dot"></div>
+    <canvas id="cursor-canvas" class="cursor-canvas"></canvas>
+
+    <!-- BACKGROUND MUSIC -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+        <source src="assets/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- FLOATING MUSIC PLAYER -->
+    <div id="music-player-container" class="music-player-container">
+        <div class="music-player-inner">
+            <div class="music-teddy-icon">
+                <svg viewBox="0 0 100 100" width="40" height="40">
+                    <circle cx="50" cy="55" r="30" fill="#EAD5C3" />
+                    <circle cx="28" cy="32" r="12" fill="#EAD5C3" />
+                    <circle cx="72" cy="32" r="12" fill="#EAD5C3" />
+                    <circle cx="28" cy="32" r="6" fill="#FFAEC9" />
+                    <circle cx="72" cy="32" r="6" fill="#FFAEC9" />
+                    <circle cx="50" cy="62" r="12" fill="#FFF" />
+                    <circle cx="42" cy="48" r="4.5" fill="#4B3321" />
+                    <circle cx="58" cy="48" r="4.5" fill="#4B3321" />
+                    <ellipse cx="50" cy="58" rx="5" ry="3.5" fill="#4B3321" />
+                    <circle cx="36" cy="55" r="4.5" fill="#FF8E9E" opacity="0.6" />
+                    <circle cx="64" cy="55" r="4.5" fill="#FF8E9E" opacity="0.6" />
+                </svg>
+            </div>
+            <div class="music-controls">
+                <button id="music-play-btn" class="music-control-btn"><i class="fas fa-play"></i></button>
+                <div class="volume-slider-wrapper">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING STAR COUNTER (NEW FEATURE) -->
+    <div id="star-counter-container" class="star-counter-container" style="display: none;">
+        <span class="star-icon-anim">⭐</span>
+        <span class="star-count-text">Stars Found: <span id="stars-found-num">0</span>/10</span>
+    </div>
+
+    <!-- TEDDY GUIDE WORLD CHARACTER AND DIALOGUE -->
+    <div id="teddy-guide-container" class="teddy-guide-container" style="display: none;">
+        <!-- Speech Bubble -->
+        <div class="teddy-speech-bubble" id="teddy-speech-bubble">
+            <p id="teddy-speech-text">Hiiiii Neelima Diiii! 🧸💕</p>
+            <!-- Dialogue Choice Buttons -->
+            <div class="teddy-choices" id="teddy-choices" style="display: none;">
+                <button class="plush-btn choice-yes" onclick="chooseTeddyOption('yes')">💖 YESSSS!</button>
+                <button class="plush-btn choice-no" id="choice-no-btn" onclick="chooseTeddyOption('maybe')">🥺 MAYBE LATER</button>
+            </div>
+        </div>
+        <!-- Animated SVG Teddy -->
+        <div class="teddy-guide-character" id="teddy-guide-character">
+            <svg viewBox="0 0 100 100" width="120" height="120">
+                <!-- Ears -->
+                <circle cx="28" cy="32" r="12" class="teddy-ear left-ear" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                <circle cx="28" cy="32" r="6" class="teddy-ear-inner left-ear-inner" fill="#FFAEC9" />
+                <circle cx="72" cy="32" r="12" class="teddy-ear right-ear" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                <circle cx="72" cy="32" r="6" class="teddy-ear-inner right-ear-inner" fill="#FFAEC9" />
+                <!-- Body -->
+                <ellipse cx="50" cy="70" rx="26" ry="22" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                <circle cx="50" cy="70" r="14" fill="#FFF" />
+                <!-- Feet -->
+                <circle cx="34" cy="86" r="8" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                <circle cx="66" cy="86" r="8" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                <!-- Head -->
+                <circle cx="50" cy="50" r="24" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                <!-- Blushing cheeks -->
+                <circle cx="34" cy="54" r="4.5" fill="#FF9AA2" class="teddy-blush" opacity="0.7" />
+                <circle cx="66" cy="54" r="4.5" fill="#FF9AA2" class="teddy-blush" opacity="0.7" />
+                <!-- Muzzle -->
+                <circle cx="50" cy="57" r="7.5" fill="#FFF" />
+                <!-- Eyes -->
+                <g class="teddy-eyes">
+                    <circle cx="41" cy="46" r="3" fill="#4B3321" class="teddy-eye-pupil" />
+                    <circle cx="39.5" cy="44.5" r="1" fill="#FFF" />
+                    <circle cx="59" cy="46" r="3" fill="#4B3321" class="teddy-eye-pupil" />
+                    <circle cx="57.5" cy="44.5" r="1" fill="#FFF" />
+                </g>
+                <!-- Nose & Mouth -->
+                <ellipse cx="50" cy="54.5" rx="3" ry="1.8" fill="#4B3321" />
+                <path d="M 48 58 Q 50 60, 52 58" stroke="#4B3321" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                <!-- Arms/Hands -->
+                <g class="teddy-arm-left">
+                    <circle cx="24" cy="65" r="6" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                </g>
+                <g class="teddy-arm-right">
+                    <circle cx="76" cy="65" r="6" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- AUDIO START MODAL -->
+    <div id="audio-prompt" class="audio-prompt-modal">
+        <div class="audio-prompt-content">
+            <div class="welcome-teddy">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <circle cx="50" cy="55" r="30" fill="#EAD5C3" />
+                    <circle cx="28" cy="32" r="12" fill="#EAD5C3" />
+                    <circle cx="72" cy="32" r="12" fill="#EAD5C3" />
+                    <circle cx="28" cy="32" r="6" fill="#FFAEC9" />
+                    <circle cx="72" cy="32" r="6" fill="#FFAEC9" />
+                    <circle cx="50" cy="62" r="12" fill="#FFF" />
+                    <circle cx="42" cy="48" r="4.5" fill="#4B3321" />
+                    <circle cx="58" cy="48" r="4.5" fill="#4B3321" />
+                    <ellipse cx="50" cy="58" rx="5" ry="3.5" fill="#4B3321" />
+                    <circle cx="36" cy="55" r="6" fill="#FF8E9E" opacity="0.7" />
+                    <circle cx="64" cy="55" r="6" fill="#FF8E9E" opacity="0.7" />
+                    <path d="M 46 64 C 48 66, 52 66, 54 64" stroke="#4B3321" stroke-width="2" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+            <h2>Welcome to Neelima Di's Teddy World!</h2>
+            <p>We've created a cozy plushie wonderland filled with surprises and music. Please unmute to begin the adventure!</p>
+            <div class="prompt-buttons">
+                <button id="unmute-btn" class="plush-btn primary-plush">✨ Enter With Music 🎵</button>
+                <button id="skip-audio-btn" class="plush-btn secondary-plush">Enter Quietly 🧸</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING SCREEN -->
+    <div id="loader" class="loader-container">
+        <div class="loader-content">
+            <div class="bouncing-teddy-wrapper">
+                <!-- Cute Teddy Sitting beside Cake -->
+                <svg viewBox="0 0 120 120" class="bouncing-teddy" width="120" height="120">
+                    <!-- Teddy Bear -->
+                    <circle cx="60" cy="55" r="26" fill="#D2B48C" />
+                    <circle cx="40" cy="35" r="10" fill="#D2B48C" />
+                    <circle cx="80" cy="35" r="10" fill="#D2B48C" />
+                    <circle cx="40" cy="35" r="5" fill="#FFAEC9" />
+                    <circle cx="80" cy="35" r="5" fill="#FFAEC9" />
+                    <!-- Arms -->
+                    <circle cx="32" cy="62" r="8" fill="#D2B48C" />
+                    <circle cx="88" cy="62" r="8" fill="#D2B48C" />
+                    <!-- Legs -->
+                    <circle cx="44" cy="80" r="10" fill="#D2B48C" />
+                    <circle cx="76" cy="80" r="10" fill="#D2B48C" />
+                    <!-- Muzzle -->
+                    <circle cx="60" cy="62" r="10" fill="#FFF" />
+                    <!-- Eyes & Nose -->
+                    <circle cx="52" cy="52" r="3.5" fill="#422518" />
+                    <circle cx="68" cy="52" r="3.5" fill="#422518" />
+                    <ellipse cx="60" cy="59" rx="4" ry="2.5" fill="#422518" />
+                    <!-- Blush -->
+                    <circle cx="46" cy="59" r="4.5" fill="#FF8D9E" opacity="0.6" />
+                    <circle cx="74" cy="59" r="4.5" fill="#FF8D9E" opacity="0.6" />
+                    <!-- Cake next to Teddy -->
+                    <g transform="translate(85, 68) scale(0.6)">
+                        <rect x="0" y="20" width="50" height="30" rx="8" fill="#FFF2F2" stroke="#FFB7B2" stroke-width="2" />
+                        <rect x="5" y="10" width="40" height="12" rx="4" fill="#FFC6FF" />
+                        <!-- candle -->
+                        <rect x="23" y="-5" width="4" height="15" fill="#BDB2FF" />
+                        <path d="M 25 -10 Q 23 -18, 25 -22 Q 27 -18, 25 -10" fill="#FFADAD" />
+                    </g>
+                </svg>
+            </div>
+            <h1 class="loading-title">Neelima Di's Teddy World is getting ready...</h1>
+            <div class="heart-progress-container">
+                <div class="heart-progress-bar" id="load-progress"></div>
+                <div class="heart-indicator" id="heart-indicator"><i class="fas fa-heart"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CANVAS BACKGROUNDS -->
+    <canvas id="particles-canvas" class="particles-canvas"></canvas>
+
+    <!-- BACKGROUND VIDEO -->
+    <div class="video-bg-container">
+        <video autoplay loop muted playsinline id="bg-video">
+            <source src="assets/birthday_background.mp4" type="video/mp4">
+        </video>
+        <div class="video-bg-overlay"></div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="main-content" style="opacity: 0;">
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="clouds-bg">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
+            
+            <div class="hero-container">
+                <!-- Waving Teddy SVG -->
+                <div class="waving-teddy-wrapper">
+                    <svg viewBox="0 0 100 100" class="waving-teddy" width="150" height="150">
+                        <circle cx="50" cy="55" r="28" fill="#EAD5C3" />
+                        <circle cx="28" cy="30" r="11" fill="#EAD5C3" />
+                        <circle cx="72" cy="30" r="11" fill="#EAD5C3" />
+                        <circle cx="28" cy="30" r="5" fill="#FFAEC9" />
+                        <circle cx="72" cy="30" r="5" fill="#FFAEC9" />
+                        <!-- Left arm waving -->
+                        <g class="teddy-left-arm">
+                            <ellipse cx="23" cy="52" rx="9" ry="7" fill="#EAD5C3" transform="rotate(-30 23 52)" />
+                        </g>
+                        <!-- Right arm waving (rotates with animation) -->
+                        <g class="teddy-right-arm-waving">
+                            <ellipse cx="78" cy="46" rx="9" ry="7" fill="#EAD5C3" transform="rotate(30 78 46)" />
+                        </g>
+                        <!-- Body legs -->
+                        <ellipse cx="40" cy="80" rx="9" ry="8" fill="#EAD5C3" />
+                        <ellipse cx="60" cy="80" rx="9" ry="8" fill="#EAD5C3" />
+                        <!-- Eyes, nose, mouth -->
+                        <circle cx="42" cy="48" r="4" fill="#564030" />
+                        <circle cx="58" cy="48" r="4" fill="#564030" />
+                        <circle cx="50" cy="60" r="10" fill="#FFF" />
+                        <ellipse cx="50" cy="56" rx="4" ry="2.5" fill="#564030" />
+                        <path d="M 47 60 Q 50 63, 53 60" stroke="#564030" stroke-width="2" fill="none" stroke-linecap="round" />
+                        <!-- Blush cheeks -->
+                        <circle cx="36" cy="54" r="5" fill="#FF8D9E" opacity="0.6" />
+                        <circle cx="64" cy="54" r="5" fill="#FF8D9E" opacity="0.6" />
+                    </svg>
+                </div>
+
+                <h1 class="hero-title">🎂 Happy Birthday Neelima Di 🎂</h1>
+                <p class="hero-subtitle">A little teddy made something special for you...</p>
+                
+                <button id="start-adventure-btn" class="plush-btn primary-plush bounce-btn">
+                    🎀 Start Teddy Adventure
+                </button>
+            </div>
+        </section>
+
+        <!-- MAIN PLUSH BUTTON NAVIGATION -->
+        <section id="navigation-section" class="navigation-section">
+            <div class="nav-grid">
+                <button class="plush-nav-btn memory-btn" onclick="openSection('memories')">
+                    <span class="btn-icon">📸</span>
+                    <span class="btn-text">Memory Land</span>
+                </button>
+                <button class="plush-nav-btn mail-btn" onclick="openSection('mail')">
+                    <span class="btn-icon">💌</span>
+                    <span class="btn-text">Teddy Mail</span>
+                </button>
+                <button class="plush-nav-btn party-btn" onclick="openSection('party')">
+                    <span class="btn-icon">🎉</span>
+                    <span class="btn-text">Birthday Party</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 1: MEMORY LAND (Magical Storybook) -->
+        <section id="memories-section" class="experience-section memories-section">
+            <div class="section-decorations">
+                <span class="decor decor-1">🍓</span>
+                <span class="decor decor-2">🧸</span>
+                <span class="decor decor-3">🌸</span>
+                <span class="decor decor-4">🎀</span>
+                <span class="decor decor-5">✨</span>
+            </div>
+            
+            <div class="section-header text-center">
+                <h2>📸 Memory Land</h2>
+                <p class="storybook-intro">🧸 "Let's revisit some happy moments..."</p>
+            </div>
+
+            <!-- Storybook container -->
+            <div class="storybook-container">
+                <div class="storybook-wrapper" id="storybook-wrapper">
+                    <!-- Page 1: Welcome Page -->
+                    <div class="storybook-page page-active" id="book-page-1">
+                        <div class="page-content center-flex">
+                            <div class="welcome-cover">
+                                <span class="giant-emoji book-icon-interactive" id="welcome-book-icon" onclick="animateBookOpen()">📔</span>
+                                <h3>Our Scrapbook of Smiles</h3>
+                                <p>Flip the pages to step through the memories. Look out for tiny hidden teddy bears for secret notes! 🧸</p>
+                                <button class="plush-btn secondary-plush min-width-btn" onclick="animateBookOpen()">Open Book 🌸</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 2: Photo 1 -->
+                    <div class="storybook-page page-hidden" id="book-page-2">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-left sticker-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img1.png" alt="Memory 1" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 1 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(1, this)"><i class="fas fa-paw"></i></button>
+                                        <!-- Hidden Star 1 -->
+                                        <div class="birthday-star" id="star-1" onclick="collectStar('star-1', event)">⭐</div>
+                                    </div>
+                                    <div class="polaroid-caption">This day was too good 😂</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>🎀 A Sweet Day</h3>
+                                <p>Capturing the genuine smiles and laughter. This picture always makes me think of happy times and how your laughter is infectious!</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(1)"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 3: Photo 2 -->
+                    <div class="storybook-page page-hidden" id="book-page-3">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-right teddy-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img2.png" alt="Memory 2" onerror="this.src='https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 2 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(2, this)"><i class="fas fa-paw"></i></button>
+                                    </div>
+                                    <div class="polaroid-caption">Still one of my favorite pictures.</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>🍓 Radiant Sunshine</h3>
+                                <p>No matter what, your positive energy shines through. You bring a beautiful glow of warmth and happiness into every single room.</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(1)"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 4: Photo 3 -->
+                    <div class="storybook-page page-hidden" id="book-page-4">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-left sticker-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img3.png" alt="Memory 3" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 3 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(3, this)"><i class="fas fa-paw"></i></button>
+                                        <!-- Hidden Star 2 -->
+                                        <div class="birthday-star" id="star-2" onclick="collectStar('star-2', event)">⭐</div>
+                                    </div>
+                                    <div class="polaroid-caption">Core memory unlocked.</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>🧸 Sweet Moments</h3>
+                                <p>Some days are etched in gold. This photo is a reminder of those cozy, precious days where everything felt perfect, simple, and happy.</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(1)"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 5: Photo 4 -->
+                    <div class="storybook-page page-hidden" id="book-page-5">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-right teddy-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img4.png" alt="Memory 4" onerror="this.src='https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 4 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(4, this)"><i class="fas fa-paw"></i></button>
+                                    </div>
+                                    <div class="polaroid-caption">Unforgettable laugh! 😄</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>🌸 Unconditional Love</h3>
+                                <p>You have a special way of looking out for everyone. Your caring nature is like a comforting hug that protects all your close friends and family.</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(1)"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 6: Photo 5 -->
+                    <div class="storybook-page page-hidden" id="book-page-6">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-left sticker-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img5.png" alt="Memory 5" onerror="this.src='https://images.unsplash.com/photo-1507504038482-76210214dae1?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 5 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(5, this)"><i class="fas fa-paw"></i></button>
+                                    </div>
+                                    <div class="polaroid-caption">Such a vibe! ⭐</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>💖 Absolute Joy</h3>
+                                <p>A picture filled with happiness. Your positive spirit is inspiring and it lifts everyone around you, guiding us like a bright little star.</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(1)"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 7: Photo 6 -->
+                    <div class="storybook-page page-hidden" id="book-page-7">
+                        <div class="page-content grid-split">
+                            <div class="polaroid-wrapper">
+                                <div class="polaroid-card rotate-right teddy-frame">
+                                    <div class="polaroid-img-box">
+                                        <img src="assets/img6.png" alt="Memory 6" onerror="this.src='https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop'">
+                                        <!-- Hidden Teddy 6 -->
+                                        <button class="hidden-teddy" onclick="revealHiddenTeddy(6, this)"><i class="fas fa-paw"></i></button>
+                                        <!-- Hidden Star 3 -->
+                                        <div class="birthday-star" id="star-3" onclick="collectStar('star-3', event)">⭐</div>
+                                    </div>
+                                    <div class="polaroid-caption">This day was beautiful! 🎂</div>
+                                </div>
+                            </div>
+                            <div class="page-text-desc">
+                                <h3>🎈 Sparkly Celebrations</h3>
+                                <p>To many more days of celebrations and sweet smiles! You make every single milestone and moment so much more delightful.</p>
+                                <div class="book-nav-buttons">
+                                    <button class="plush-btn round-nav" onclick="changeBookPage(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="plush-btn secondary-plush min-width-btn" onclick="scrollToNav()">Go Back 🎀</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Secret Teddy Surprise Message Popup -->
+            <div id="teddy-secret-modal" class="teddy-secret-modal">
+                <div class="teddy-secret-box">
+                    <span class="close-secret-btn" onclick="closeSecretModal()">&times;</span>
+                    <div class="secret-teddy-art">
+                        <svg viewBox="0 0 100 100" width="80" height="80">
+                            <circle cx="50" cy="55" r="30" fill="#FFCCD5" />
+                            <circle cx="28" cy="32" r="12" fill="#FFCCD5" />
+                            <circle cx="72" cy="32" r="12" fill="#FFCCD5" />
+                            <circle cx="50" cy="62" r="12" fill="#FFF" />
+                            <circle cx="42" cy="48" r="4.5" fill="#4B3321" />
+                            <circle cx="58" cy="48" r="4.5" fill="#4B3321" />
+                            <ellipse cx="50" cy="58" rx="5" ry="3.5" fill="#4B3321" />
+                            <circle cx="36" cy="55" r="5" fill="#FF8D9E" opacity="0.8" />
+                            <circle cx="64" cy="55" r="5" fill="#FF8D9E" opacity="0.8" />
+                        </svg>
+                    </div>
+                    <p id="secret-teddy-text">"You found a secret!"</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECTION 2: TEDDY MAIL (Pastel Envelope & Notebook diary) -->
+        <section id="mail-section" class="experience-section mail-section">
+            <div class="section-decorations">
+                <span class="decor decor-1">🎀</span>
+                <span class="decor decor-2">🍓</span>
+                <span class="decor decor-3">🧸</span>
+                <span class="decor decor-4">🌸</span>
+                <span class="decor decor-5">✨</span>
+            </div>
+
+            <div class="section-header text-center">
+                <h2>💌 Teddy Mail</h2>
+                <p class="storybook-intro">Aapkeliye ek chota sa letter aapki teddy ki taraf se</p>
+            </div>
+
+            <div class="envelope-area">
+                <!-- Hidden Star 4 -->
+                <div class="birthday-star" id="star-4" onclick="collectStar('star-4', event)">⭐</div>
+                <!-- Giant Pink Envelope -->
+                <div class="envelope-outer" id="envelope-outer" onclick="toggleEnvelope()">
+                    <div class="envelope-flap" id="envelope-flap"></div>
+                    <!-- Custom Gold Printed Seal -->
+                    <div class="gold-envelope-seal">
+                        <svg width="100%" height="100%" viewBox="0 0 100 100">
+                            <!-- Outer Gold Ring (printed stamp detail) -->
+                            <circle cx="50" cy="50" r="43" fill="none" stroke="#704f00" stroke-width="2" />
+                            <!-- Inner Gold Dash Ring -->
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="#704f00" stroke-width="1.2" stroke-dasharray="3,2" />
+                            
+                            <!-- Printed Cute Teddy Bear Face on Left -->
+                            <g class="seal-teddy" stroke="#704f00" stroke-width="1.5" fill="#ffd97d" stroke-linejoin="round" stroke-linecap="round">
+                                <!-- Left Ear -->
+                                <circle cx="34" cy="41" r="5" />
+                                <circle cx="34" cy="41" r="2.5" fill="#ffb480" stroke="none" />
+                                <!-- Right Ear -->
+                                <circle cx="48" cy="41" r="5" />
+                                <circle cx="48" cy="41" r="2.5" fill="#ffb480" stroke="none" />
+                                <!-- Head -->
+                                <circle cx="41" cy="51" r="10" />
+                                <!-- Snout/Muzzle -->
+                                <ellipse cx="41" cy="54" rx="4.5" ry="3" fill="#fff" />
+                                <!-- Nose -->
+                                <ellipse cx="41" cy="53" rx="1.8" ry="1.2" fill="#704f00" stroke="none" />
+                                <!-- Eyes -->
+                                <circle cx="37.5" cy="48.5" r="1.2" fill="#704f00" stroke="none" />
+                                <circle cx="44.5" cy="48.5" r="1.2" fill="#704f00" stroke="none" />
+                                <!-- Cheek blush -->
+                                <circle cx="34.5" cy="52" r="1.2" fill="#ff9999" stroke="none" />
+                                <circle cx="47.5" cy="52" r="1.2" fill="#ff9999" stroke="none" />
+                            </g>
+                            
+                            <!-- Elegant Monogram Letter N on Right -->
+                            <text x="67" y="59" font-family="'Cinzel', 'Playfair Display', 'Georgia', serif" font-size="28" font-weight="bold" fill="#704f00" text-anchor="middle">N</text>
+                        </svg>
+                    </div>
+                    <div class="envelope-body"></div>
+                    <div class="envelope-letter" id="envelope-letter">
+                        <!-- Notebook diary styling -->
+                        <div class="diary-notebook">
+                            <div class="notebook-spine"></div>
+                            <div class="notebook-page-view">
+                                <div class="diary-pages-container" id="diary-pages-container">
+                                    <!-- Diary pages injected by JS dynamically for turning pages -->
+                                    <div class="diary-page-content" id="diary-page-content">
+                                        <div class="diary-text-area" id="diary-text-area">
+                                            <!-- Typewriter notes will go here -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="diary-navigation">
+                                    <!-- Hidden Star 5 -->
+                                    <div class="birthday-star" id="star-5" onclick="collectStar('star-5', event)">⭐</div>
+                                    <button class="diary-nav-btn" id="diary-prev-btn" onclick="prevDiaryPage(event)"><i class="fas fa-chevron-left"></i> Back</button>
+                                    <button class="diary-nav-btn" id="diary-next-btn" onclick="nextDiaryPage(event)">Next <i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="envelope-hint" id="envelope-hint">
+                    <p>Click the cute envelope to open it! 🍓</p>
+                    <i class="fas fa-angle-double-down bounce-arrow"></i>
+                </div>
+                <!-- Hidden Star 6 -->
+                <div class="birthday-star" id="star-6" onclick="collectStar('star-6', event)">⭐</div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: BIRTHDAY PARTY (Teddy Birthday Wonderland) -->
+        <!-- Countdown overlay (soft cream & yellow, no black) -->
+        <div id="party-countdown" class="party-countdown-overlay">
+            <div class="countdown-card">
+                <div class="countdown-num" id="party-countdown-num">3</div>
+                <p>Getting the party ready...</p>
+            </div>
+        </div>
+
+        <section id="party-section" class="experience-section party-section">
+            <div class="section-decorations">
+                <span class="decor decor-1">🎈</span>
+                <span class="decor decor-2">🎂</span>
+                <span class="decor decor-3">✨</span>
+                <span class="decor decor-4">💖</span>
+                <span class="decor decor-5">⭐</span>
+                <!-- Hidden Star 7 -->
+                <div class="birthday-star" id="star-7" onclick="collectStar('star-7', event)">⭐</div>
+            </div>
+
+            <div class="section-header text-center">
+                <h2>🎉 Birthday Party</h2>
+                <p class="storybook-intro">Welcome to the magical Teddy Wonderland!</p>
+            </div>
+
+            <!-- CINEMATIC SLIDESHOW IN TEDDY FRAME -->
+            <div class="party-slideshow-wrapper">
+                <div class="teddy-ears-frame">
+                    <!-- Left ear and right ear decorations -->
+                    <div class="ear-left"></div>
+                    <div class="ear-right"></div>
+                    <div class="slideshow-frame-inner">
+                        <div class="party-slides" id="party-slides">
+                            <div class="party-slide slide-active">
+                                <img src="assets/img1.png" alt="Slide 1" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">One of my favorites.</div>
+                            </div>
+                            <div class="party-slide">
+                                <img src="assets/img2.png" alt="Slide 2" onerror="this.src='https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">This deserved a spot here.</div>
+                            </div>
+                            <div class="party-slide">
+                                <img src="assets/img3.png" alt="Slide 3" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">Still smiling at this.</div>
+                            </div>
+                            <div class="party-slide">
+                                <img src="assets/img4.png" alt="Slide 4" onerror="this.src='https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">Certified happy memory.</div>
+                            </div>
+                            <div class="party-slide">
+                                <img src="assets/img5.png" alt="Slide 5" onerror="this.src='https://images.unsplash.com/photo-1507504038482-76210214dae1?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">Too cute not to include.</div>
+                            </div>
+                            <div class="party-slide">
+                                <img src="assets/img6.png" alt="Slide 6" onerror="this.src='https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop'">
+                                <div class="slide-caption">Double tap of sweetness! 💖</div>
+                            </div>
+                        </div>
+                        <!-- Slideshow Nav -->
+                        <button class="slide-btn left-btn" onclick="navigatePartySlides(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slide-btn right-btn" onclick="navigatePartySlides(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- TEDDY CAFE -->
+            <div class="cafe-section-wrapper">
+                <h3 class="cafe-title">🍓 Teddy Café</h3>
+                <p class="cafe-subtitle">Click on the menu items to see a random sweet message! 🍰</p>
+                <div class="cafe-grid">
+                    <div class="cafe-card" onclick="tapCafeItem('milk', this)">
+                        <div class="cafe-item-img">🍓🥛</div>
+                        <h4>Strawberry Milk</h4>
+                        <!-- Hidden Star 8 -->
+                        <div class="birthday-star" id="star-8" onclick="collectStar('star-8', event)">⭐</div>
+                        <p class="cafe-item-desc">Freshly blended strawberry milk, sweet & pink.</p>
+                        <div class="cafe-bubble" id="cafe-bubble-milk">Made with teddy love.</div>
+                    </div>
+                    <div class="cafe-card" onclick="tapCafeItem('boba', this)">
+                        <div class="cafe-item-img">🧋🧸</div>
+                        <h4>Teddy Boba</h4>
+                        <p class="cafe-item-desc">Sweet milk tea filled with chewy teddy boba pearls.</p>
+                        <div class="cafe-bubble" id="cafe-bubble-boba">Extra sweetness for today's birthday girl.</div>
+                    </div>
+                    <div class="cafe-card" onclick="tapCafeItem('cupcake', this)">
+                        <div class="cafe-item-img">🧁🌸</div>
+                        <h4>Birthday Cupcake</h4>
+                        <p class="cafe-item-desc">A fluffy cupcake topped with strawberry cream.</p>
+                        <div class="cafe-bubble" id="cafe-bubble-cupcake">A little bite of happiness.</div>
+                    </div>
+                    <div class="cafe-card" onclick="tapCafeItem('cake', this)">
+                        <div class="cafe-item-img">🍰✨</div>
+                        <h4>Celebration Cake</h4>
+                        <p class="cafe-item-desc">A soft layer cake frosted with vanilla sprinkles.</p>
+                        <div class="cafe-bubble" id="cafe-bubble-cake">May your day be filled with cake!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MINI GAME: CATCH THE TEDDY -->
+            <div class="game-section-wrapper">
+                <h3 class="game-title">🎮 Catch The Teddy</h3>
+                <p class="game-subtitle">Tap/Click on the falling teddy bears from the sky! Score points for special rewards. 🧸</p>
+                <div class="game-container">
+                    <div class="game-score-board">
+                        <span>Score: <b id="game-score">0</b></span>
+                        <!-- Hidden Star 9 -->
+                        <div class="birthday-star" id="star-9" onclick="collectStar('star-9', event)">⭐</div>
+                        <!-- Hidden Star 10 -->
+                        <div class="birthday-star" id="star-10" onclick="collectStar('star-10', event)">⭐</div>
+                        <button id="start-game-btn" class="plush-btn secondary-plush py-1 px-3" onclick="startGame()">Start Game</button>
+                    </div>
+                    <div class="game-canvas-area" id="game-canvas-area">
+                        <!-- Falling teddies will be dynamically added as HTML elements for better mobile clicking -->
+                    </div>
+                    <!-- Game Reward Alert Modal -->
+                    <div id="game-reward-modal" class="game-reward-modal">
+                        <div class="game-reward-box">
+                            <span class="close-game-btn" onclick="closeGameReward()">&times;</span>
+                            <div class="reward-icon" id="reward-icon">🏆</div>
+                            <h4 id="reward-title">Milestone Achieved!</h4>
+                            <p id="reward-text">You earned a reward!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEDDY WISH MACHINE (GACHA) -->
+            <div class="gacha-section-wrapper">
+                <h3 class="gacha-title">🎀 Teddy Wish Machine</h3>
+                <p class="gacha-subtitle">Turn the knob to dispense a capsule and read a special birthday wish! (50 unique wishes) 🌸</p>
+                <div class="gacha-container">
+                    <div class="gacha-machine">
+                        <div class="gacha-glass">
+                            <!-- Floating capsules inside glass -->
+                            <div class="capsules-pile">
+                                <div class="capsule cap-1" style="background: #FFD5E5;"></div>
+                                <div class="capsule cap-2" style="background: #BFF0FF;"></div>
+                                <div class="capsule cap-3" style="background: #E8D7FF;"></div>
+                                <div class="capsule cap-4" style="background: #FFF5C3;"></div>
+                                <div class="capsule cap-5" style="background: #FFDAC1;"></div>
+                                <div class="capsule cap-6" style="background: #FFD5E5;"></div>
+                                <div class="capsule cap-7" style="background: #BFF0FF;"></div>
+                                <div class="capsule cap-8" style="background: #E8D7FF;"></div>
+                                <div class="capsule cap-9" style="background: #FFF5C3;"></div>
+                                <div class="capsule cap-10" style="background: #FFDAC1;"></div>
+                            </div>
+                        </div>
+                        <div class="gacha-dispenser">
+                            <!-- Hidden Star 10 -->
+                            <div class="birthday-star" id="star-10-gacha" onclick="collectStar('star-10-gacha', event)">⭐</div>
+                            <div class="gacha-knob-wrapper" id="gacha-knob" onclick="dispenseWishCapsule()">
+                                <div class="gacha-knob"></div>
+                                <div class="knob-handle"></div>
+                            </div>
+                            <div class="gacha-slot" id="gacha-slot"></div>
+                        </div>
+                    </div>
+
+                    <!-- Dispensed Capsule Reveal -->
+                    <div class="gacha-reveal" id="gacha-reveal" style="display: none;">
+                        <div class="capsule-split-container">
+                            <div class="capsule-half cap-top"></div>
+                            <div class="capsule-half cap-bottom"></div>
+                            <div class="wish-paper" id="wish-paper">
+                                <span class="paper-sparkles">✨</span>
+                                <p id="gacha-wish-text">Wish Text...</p>
+                                <button class="plush-btn secondary-plush scale-sml-btn" onclick="closeGachaReveal()">Aww, Cute! 💖</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIRTHDAY WISH MOMENT (LOCKED UNTIL STARS FOUND) -->
+            <div class="grand-finale-wrapper locked-section" id="wish-moment-section" style="display: none;">
+                <div class="finale-header text-center">
+                    <h3 class="grand-teddy-title">🕯️ Make A Wish, Di ✨</h3>
+                </div>
+
+                <!-- Giant Birthday Teddy Bear Holding Cake -->
+                <div class="giant-teddy-container">
+                    <div class="clouds-decor">
+                        <div class="cloud c-d-1"></div>
+                        <div class="cloud c-d-2"></div>
+                    </div>
+                    
+                    <div class="giant-teddy-art">
+                        <!-- Adorable Illustrated Giant Cream Teddy -->
+                        <svg viewBox="0 0 200 200" width="100%" height="100%">
+                            <!-- Left Ear -->
+                            <circle cx="65" cy="50" r="22" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <circle cx="65" cy="50" r="12" fill="#FFAEC9" />
+                            <!-- Right Ear -->
+                            <circle cx="135" cy="50" r="22" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <circle cx="135" cy="50" r="12" fill="#FFAEC9" />
+                            
+                            <!-- Legs -->
+                            <circle cx="65" cy="155" r="20" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <circle cx="135" cy="155" r="20" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <circle cx="65" cy="155" r="10" fill="#FFC6FF" />
+                            <circle cx="135" cy="155" r="10" fill="#FFC6FF" />
+
+                            <!-- Main Body -->
+                            <ellipse cx="100" cy="115" rx="55" ry="48" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <ellipse cx="100" cy="115" rx="35" ry="30" fill="#FFF" />
+
+                            <!-- Head -->
+                            <circle cx="100" cy="85" r="45" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="2" />
+                            <!-- Blushing cheeks -->
+                            <circle cx="70" cy="92" r="8" fill="#FF9AA2" opacity="0.65" />
+                            <circle cx="130" cy="92" r="8" fill="#FF9AA2" opacity="0.65" />
+                            <!-- Muzzle -->
+                            <circle cx="100" cy="97" r="14" fill="#FFF" />
+                            <!-- Big Shiny Eyes -->
+                            <g class="shiny-eyes">
+                                <circle cx="82" cy="82" r="6" fill="#4B3321" />
+                                <circle cx="80" cy="80" r="2" fill="#FFF" />
+                                <circle cx="84" cy="84" r="1" fill="#FFF" />
+                                
+                                <circle cx="118" cy="82" r="6" fill="#4B3321" />
+                                <circle cx="116" cy="80" r="2" fill="#FFF" />
+                                <circle cx="118" cy="84" r="1" fill="#FFF" />
+                            </g>
+                            <!-- Nose -->
+                            <ellipse cx="100" cy="92" rx="5" ry="3" fill="#4B3321" />
+                            <!-- Smile mouth -->
+                            <path d="M 96 98 Q 100 101, 104 98" stroke="#4B3321" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                            
+                            <!-- Birthday Hat -->
+                            <g transform="translate(100, 42) scale(0.9)">
+                                <polygon points="0,-40 -20,0 20,0" fill="#FFC6FF" stroke="#FF8E9E" stroke-width="2" />
+                                <!-- Polka dots -->
+                                <circle cx="-5" cy="-15" r="3" fill="#BDB2FF" />
+                                <circle cx="5" cy="-25" r="3" fill="#98EECC" />
+                                <circle cx="0" cy="-5" r="3" fill="#FFADAD" />
+                                <!-- Pompom -->
+                                <circle cx="0" cy="-42" r="6" fill="#FFF5C3" stroke="#EAD5C3" stroke-width="1.5" />
+                            </g>
+
+                            <!-- Teddy Arms holding the cake -->
+                            <circle cx="55" cy="115" r="12" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                            <circle cx="145" cy="115" r="12" fill="#FAF0E6" stroke="#EAD5C3" stroke-width="1.5" />
+                        </svg>
+                    </div>
+
+                    <!-- Cake Image Overlay with Interactive Candle Flame -->
+                    <div class="finale-cake-box">
+                        <img src="assets/cake.png" alt="Birthday Cake" class="finale-cake-img" onerror="this.style.display='none'; document.getElementById('fallback-cake-illust').style.display='block';">
+                        
+                        <!-- Fallback Cake SVG if assets/cake.png is missing -->
+                        <div id="fallback-cake-illust" class="fallback-cake-illust" style="display: none;">
+                            <svg viewBox="0 0 100 100" width="120" height="120">
+                                <rect x="15" y="40" width="70" height="40" rx="10" fill="#FFF2F2" stroke="#FFCCD5" stroke-width="2" />
+                                <path d="M 15 45 C 25 40, 35 40, 45 45 C 55 40, 65 40, 75 45 C 85 40, 95 40, 85 45" fill="none" stroke="#FFCCD5" stroke-width="3" />
+                                <rect x="25" y="25" width="50" height="15" rx="5" fill="#E8D7FF" />
+                                <!-- Strawberry toppings -->
+                                <circle cx="35" cy="25" r="4" fill="#FF8D9E" />
+                                <circle cx="50" cy="25" r="4" fill="#FF8D9E" />
+                                <circle cx="65" cy="25" r="4" fill="#FF8D9E" />
+                            </svg>
+                        </div>
+
+                        <!-- Candle Candle smoke overlay / Flame covering patch -->
+                        <div class="candle-holder-overlay" id="candle-holder">
+                            <!-- Illustrated Candle and flame overlay -->
+                            <div class="live-candle-glow">
+                                <div class="live-candle"></div>
+                                <div class="live-flame" id="live-flame"></div>
+                                <div class="candle-smoke" id="candle-smoke" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Candle Blow Instruction & Microphones -->
+                <div class="candle-controls text-center">
+                    <p class="candle-alert-text" id="candle-prompt-label">✨ Tap "Make A Wish", then blow into the microphone! ✨</p>
+                    
+                    <button id="wish-btn" class="plush-btn primary-plush bounce-btn" onclick="startMicBlowAnalysis()">
+                        ✨ Make A Wish
+                    </button>
+                    
+                    <!-- Microphone listening widget -->
+                    <div class="mic-listening-widget" id="mic-widget" style="display: none;">
+                        <div class="pulse-mic-circles">
+                            <div class="c-pulse p1"></div>
+                            <div class="c-pulse p2"></div>
+                            <i class="fas fa-microphone mic-active-icon"></i>
+                        </div>
+                        <p class="listening-subtext" id="listening-subtext">Listening for your breath blow... Blow gently near the speaker/microphone!</p>
+                        <!-- Fallback click option in case mic fails/user denies -->
+                        <button class="fallback-blow-btn" id="fallback-blow-btn" style="display: none;" onclick="triggerConfettiBlowout()">Or Tap to Blow Candle 🕯️</button>
+                    </div>
+                </div>
+
+                <!-- FINAL MESSAGE (Hidden until blowout) -->
+                <div class="final-message-container" id="final-message-box" style="display: none;">
+                    <div class="final-paper-card">
+                        <span class="envelope-heart-seal">💖</span>
+                        <h3>Dear Neelima Di,</h3>
+                        <p class="final-text-paragraph">
+                            Aap jaisi didi milna — yeh toh kisi lucky ki baat hai.<br>
+                            Har baar jab mujhe kuch poochna hota hai, aap wahan hoti hain. Har baar jab mujhe hasna hota hai, aap wahan hoti hain. Har baar jab mujhe lagta hai ki sab mushkil ho gaya — aap ki ek baat sab theek kar deti hai.
+                            <br><br>
+                            Aaj aapka din hai — aur mujhe umeed hai ki yeh poora din aapko utna pyaar deta jitna aap deserve karti hain. Jo bahut zyada hai. Sach mein.
+                            <br><br>
+                            Happy Birthday, Di. 🤍
+                        </p>
+                        
+                        <button class="plush-btn secondary-plush replay-btn" onclick="replayTeddyWorld()">
+                            <i class="fas fa-undo-alt"></i> Replay Adventure
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script Libraries -->
+    <!-- GSAP for cute timelines and transitions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <!-- Canvas Confetti for birthday celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Main Script file -->
+    <script src="main.js?v=1.7"></script>
+</body>
+</html>
